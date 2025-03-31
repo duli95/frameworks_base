@@ -33,7 +33,7 @@ import android.util.Log;
 
 import java.util.Calendar;
 
-import  com.android.internal.util.custom.KeyStoreException;
+import  com.android.internal.util.custom.KeyboxImitationHooks;
 
 /**
  * @hide This should not be made public in its present form because it
@@ -251,7 +251,7 @@ public class KeyStore2 {
      */
     public KeyEntryResponse getKeyEntry(@NonNull KeyDescriptor descriptor)
             throws KeyStoreException {
-        return com.android.internal.util.evolution.KeyboxImitationHooks.onGetKeyEntry(
+        return KeyboxImitationHooks.onGetKeyEntry(
             handleRemoteExceptionWithRetry((service) -> service.getKeyEntry(descriptor)));
     }
 
