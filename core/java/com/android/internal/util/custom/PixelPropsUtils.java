@@ -203,23 +203,23 @@ public class PixelPropsUtils {
                     setVersionField("DEVICE_INITIAL_SDK_INT", 21);
                 }else{
                     Log.i(TAG, "Fingerprint data available, using values from fingerprint data");
-                    setPropValue("MANUFACTURER", FingerprintManager.getManufacturer());
-                    setPropValue("MODEL", FingerprintManager.getModel());
-                    setPropValue("FINGERPRINT", FingerprintManager.getFingerprint());
-                    setPropValue("BRAND", FingerprintManager.getBrand());
-                    setPropValue("BOARD", FingerprintManager.getBrand());
-                    setPropValue("HARDWARE", FingerprintManager.getDevice());
-                    setPropValue("PRODUCT", FingerprintManager.getProduct());
-                    setPropValue("DEVICE", FingerprintManager.getDevice());
-                    setPropValue("ID", FingerprintManager.getId());
+                    setPropValue("MANUFACTURER", DeviceInfoManager.getManufacturer());
+                    setPropValue("MODEL", DeviceInfoManager.getModel());
+                    setPropValue("FINGERPRINT", DeviceInfoManager.getFingerprint());
+                    setPropValue("BRAND", DeviceInfoManager.getBrand());
+                    setPropValue("BOARD", DeviceInfoManager.getBrand());
+                    setPropValue("HARDWARE", DeviceInfoManager.getDevice());
+                    setPropValue("PRODUCT", DeviceInfoManager.getProduct());
+                    setPropValue("DEVICE", DeviceInfoManager.getDevice());
+                    setPropValue("ID", DeviceInfoManager.getId());
                     setPropValue("TYPE", "user");
                     setPropValue("TAGS", "release-keys");
-                    setVersionFieldString("RELEASE", FingerprintManager.getRelease());
-                    setVersionFieldString("INCREMENTAL", FingerprintManager.getIncremental());
-                    setVersionFieldString("SECURITY_PATCH", FingerprintManager.getSecurityPatch());
+                    setVersionFieldString("RELEASE", DeviceInfoManager.getRelease());
+                    setVersionFieldString("INCREMENTAL", DeviceInfoManager.getIncremental());
+                    setVersionFieldString("SECURITY_PATCH", DeviceInfoManager.getSecurityPatch());
                     int device_initial_sdk_int = 21;
                     try {
-                        device_initial_sdk_int = Integer.parseInt(FingerprintManager.getDeviceInitialSdkInt());
+                        device_initial_sdk_int = Integer.parseInt(DeviceInfoManager.getDeviceInitialSdkInt());
                     } catch (Exception e) {
                         device_initial_sdk_int = 21;
                     }
@@ -233,18 +233,18 @@ public class PixelPropsUtils {
     }
 
     private static boolean checkFingerprintData(){
-        return FingerprintManager.isFingerprintAvailable()
-            && FingerprintManager.getManufacturer() != null
-            && FingerprintManager.getModel() != null
-            && FingerprintManager.getFingerprint() != null
-            && FingerprintManager.getBrand() != null
-            && FingerprintManager.getProduct() != null
-            && FingerprintManager.getDevice() != null
-            && FingerprintManager.getId() != null
-            && FingerprintManager.getRelease() != null
-            && FingerprintManager.getIncremental() != null
-            && FingerprintManager.getSecurityPatch() != null
-            && FingerprintManager.getDeviceInitialSdkInt() != null;
+        return DeviceInfoManager.isFingerprintAvailable()
+            && DeviceInfoManager.getManufacturer() != null
+            && DeviceInfoManager.getModel() != null
+            && DeviceInfoManager.getFingerprint() != null
+            && DeviceInfoManager.getBrand() != null
+            && DeviceInfoManager.getProduct() != null
+            && DeviceInfoManager.getDevice() != null
+            && DeviceInfoManager.getId() != null
+            && DeviceInfoManager.getRelease() != null
+            && DeviceInfoManager.getIncremental() != null
+            && DeviceInfoManager.getSecurityPatch() != null
+            && DeviceInfoManager.getDeviceInitialSdkInt() != null;
     }
 
     public static void setProps(String packageName) {
