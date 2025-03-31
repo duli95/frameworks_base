@@ -40,6 +40,10 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
+import android.content.ContentResolver;
+import android.provider.Settings;
+import android.app.ActivityThread;
+
 /**
  * A data class representing a geographic location. A location consists of a latitude, longitude,
  * timestamp, accuracy, and other information such as bearing, altitude and velocity.
@@ -382,6 +386,18 @@ public class Location implements Parcelable {
      * @return latitude of this location
      */
     public @FloatRange(from = -90.0, to = 90.0) double getLatitude() {
+        ContentResolver cr = ActivityThread.currentApplication().getContentResolver();
+        String latitude = Settings.Global.getString(cr, Settings.Global.LATITUDE);
+        if(latitude != null){
+            try {
+                double parsedLatitude = Double.parseDouble(latitude);
+                if (parsedLatitude >= -90.0 && parsedLatitude <= 90.0) {
+                    return parsedLatitude;
+                }
+            } catch (Exception e) {
+                return mLatitudeDegrees;
+            }
+        }
         return mLatitudeDegrees;
     }
 
@@ -401,6 +417,18 @@ public class Location implements Parcelable {
      * @return longitude of this location
      */
     public @FloatRange(from = -180.0, to = 180.0) double getLongitude() {
+        ContentResolver cr = ActivityThread.currentApplication().getContentResolver();
+        String longitude = Settings.Global.getString(cr, Settings.Global.LONGITUDE);
+        if(longitude != null){
+            try {
+                double parsedLongitude = Double.parseDouble(longitude);
+                if (parsedLongitude >= -180.0 && parsedLongitude <= 180.0) {
+                    return parsedLongitude;
+                }
+            } catch (Exception e) {
+                return mLongitudeDegrees;
+            }
+        }
         return mLongitudeDegrees;
     }
 

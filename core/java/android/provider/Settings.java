@@ -14851,6 +14851,14 @@ public final class Settings {
         @Readable
         public static final String EMERGENCY_TONE = "emergency_tone";
 
+        // location
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String LONGITUDE = "mi_longitude";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String LATITUDE = "mi_latitude";
+
         /**
          * CDMA only settings
          * Whether the auto retry is enabled. The value is
