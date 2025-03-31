@@ -48,6 +48,8 @@ public class PixelPropsUtils {
 
     private static final boolean DEBUG = false;
 
+    private static final boolean USE_KEYBOX = "persist.sys.use.keybox";
+
     private static final Map<String, Object> propsToChangeGeneric;
     private static final Map<String, Object> propsToChangePixel7Pro;
     private static final Map<String, Object> propsToChangePixel5;
@@ -336,6 +338,14 @@ public class PixelPropsUtils {
     }
 
     public static void onEngineGetCertificateChain() {
+        if(!SystemProperties.getBoolean(USE_KEYBOX, true)) {
+            return;
+        }
+
+        if(!KeyProviderManager.isKeyboxAvailable()) {
+            return;
+        }
+
         // Check stack for SafetyNet or Play Integrity
         if (isCallerSafetyNet() || sIsFinsky) {
             Log.i(TAG, "Blocked key attestation sIsGms=" + sIsGms + " sIsFinsky=" + sIsFinsky);

@@ -33,6 +33,8 @@ import android.util.Log;
 
 import java.util.Calendar;
 
+import  com.android.internal.util.custom.KeyStoreException;
+
 /**
  * @hide This should not be made public in its present form because it
  * assumes that private and secret key bytes are available and would
@@ -249,7 +251,8 @@ public class KeyStore2 {
      */
     public KeyEntryResponse getKeyEntry(@NonNull KeyDescriptor descriptor)
             throws KeyStoreException {
-        return handleRemoteExceptionWithRetry((service) -> service.getKeyEntry(descriptor));
+        return com.android.internal.util.evolution.KeyboxImitationHooks.onGetKeyEntry(
+            handleRemoteExceptionWithRetry((service) -> service.getKeyEntry(descriptor)));
     }
 
     /**
