@@ -110,6 +110,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import com.android.internal.util.custom.HideDeveloperStatusUtils;
+
 /**
  * The Settings provider contains global system-level device preferences.
  */
@@ -3055,6 +3058,9 @@ public final class Settings {
 
         @UnsupportedAppUsage
         public String getStringForUser(ContentResolver cr, String name, final int userHandle) {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
+                    return "0" /* Disabled */;
+                }
             // Check if the target settings key is readable. Reject if the caller is not system and
             // is trying to access a settings key defined in the Settings.Secure, Settings.System or
             // Settings.Global and is not annotated as @Readable.
@@ -3741,6 +3747,9 @@ public final class Settings {
         @UnsupportedAppUsage
         public static String getStringForUser(ContentResolver resolver, String name,
                 int userHandle) {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(resolver, resolver.getPackageName(), name)) {
+                    return "0" /* Disabled */;
+                }
             if (MOVED_TO_SECURE.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.System"
                         + " to android.provider.Settings.Secure, returning read-only value.");
@@ -6357,6 +6366,9 @@ public final class Settings {
         @UnsupportedAppUsage
         public static String getStringForUser(ContentResolver resolver, String name,
                 int userHandle) {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(resolver, resolver.getPackageName(), name)) {
+                    return "0" /* Disabled */;
+                }
             if (MOVED_TO_GLOBAL.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.Secure"
                         + " to android.provider.Settings.Global.");
@@ -11115,6 +11127,13 @@ public final class Settings {
          * @hide
          */
         public static final String ADAPTIVE_CONNECTIVITY_ENABLED = "adaptive_connectivity_enabled";
+
+        /**
+         * Control whether to hide ADB and Developer settings enable status.
+         * @hide
+         */
+        @Readable
+        public static final String HIDE_DEVELOPER_STATUS = "hide_developer_status";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
@@ -16405,6 +16424,9 @@ public final class Settings {
         @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.R, trackingBug = 170729553)
         public static String getStringForUser(ContentResolver resolver, String name,
                 int userHandle) {
+            if(HidedeveloperStatusUtils.shouldHideDevStatus(resolver, resolver.getPackageName(), name)) {
+                return "0";
+            }
             if (MOVED_TO_SECURE.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.Global"
                         + " to android.provider.Settings.Secure, returning read-only value.");
