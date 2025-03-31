@@ -183,19 +183,28 @@ public class PixelPropsUtils {
 
                 dlog("Spoofing build for GMS");
                 // Alter build parameters to pixel for avoiding hardware attestation enforcement
-                setPropValue("PRODUCT", "sailfish");
-                setPropValue("MODEL", "Pixel");
-                setPropValue("DEVICE", "sailfish");
-                setPropValue("FINGERPRINT", "google/sailfish/sailfish:8.1.0/OPM2.171019.029/4657601:user/release-keys");
+                setPropValue("MANUFACTURER", "Google");
+                setPropValue("MODEL", "Pixel 6");
+                setPropValue("FINGERPRINT", "google/oriole_beta/oriole:16/BP22.250221.010/13193326:user/release-keys");
+                setPropValue("BRAND", "google");
+                setPropValue("BOARD", "google");
+                setPropValue("HARDWARE", "oriole");
+                setPropValue("PRODUCT", "oriole_beta");
+                setPropValue("DEVICE", "oriole");
+                setPropValue("ID", "BP22.250221.010");
                 setPropValue("TYPE", "user");
                 setPropValue("TAGS", "release-keys");
-                setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.O_MR1);
-                setVersionFieldString("SECURITY_PATCH", "2018-04-05");
+                setVersionFieldString("RELEASE", "16");
+                setVersionFieldString("INCREMENTAL", "13193326");
+                setVersionFieldString("SECURITY_PATCH", "2025-03-05");
+                setVersionField("DEVICE_INITIAL_SDK_INT", 21);
+
                 return true;
             }
         }
         return false;
     }
+
 
     public static void setProps(String packageName) {
         propsToChangeGeneric.forEach((k, v) -> setPropValue(k, v));
