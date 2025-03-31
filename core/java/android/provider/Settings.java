@@ -3058,9 +3058,6 @@ public final class Settings {
 
         @UnsupportedAppUsage
         public String getStringForUser(ContentResolver cr, String name, final int userHandle) {
-            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
-                    return "0" /* Disabled */;
-                }
             // Check if the target settings key is readable. Reject if the caller is not system and
             // is trying to access a settings key defined in the Settings.Secure, Settings.System or
             // Settings.Global and is not annotated as @Readable.
@@ -3747,9 +3744,6 @@ public final class Settings {
         @UnsupportedAppUsage
         public static String getStringForUser(ContentResolver resolver, String name,
                 int userHandle) {
-            if (HideDeveloperStatusUtils.shouldHideDevStatus(resolver, resolver.getPackageName(), name)) {
-                    return "0" /* Disabled */;
-                }
             if (MOVED_TO_SECURE.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.System"
                         + " to android.provider.Settings.Secure, returning read-only value.");
@@ -3866,6 +3860,9 @@ public final class Settings {
         /** @hide */
         @UnsupportedAppUsage
         public static int getIntForUser(ContentResolver cr, String name, int def, int userHandle) {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
+                return 0 /* Disabled */;
+            }
             String v = getStringForUser(cr, name, userHandle);
             return parseIntSettingWithDefault(v, def);
         }
@@ -3897,6 +3894,9 @@ public final class Settings {
         @UnsupportedAppUsage
         public static int getIntForUser(ContentResolver cr, String name, int userHandle)
                 throws SettingNotFoundException {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
+                return 0 /* Disabled */;
+            }
             String v = getStringForUser(cr, name, userHandle);
             return parseIntSetting(v, name);
         }
@@ -6366,9 +6366,6 @@ public final class Settings {
         @UnsupportedAppUsage
         public static String getStringForUser(ContentResolver resolver, String name,
                 int userHandle) {
-            if (HideDeveloperStatusUtils.shouldHideDevStatus(resolver, resolver.getPackageName(), name)) {
-                    return "0" /* Disabled */;
-                }
             if (MOVED_TO_GLOBAL.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.Secure"
                         + " to android.provider.Settings.Global.");
@@ -6602,6 +6599,9 @@ public final class Settings {
         /** @hide */
         @UnsupportedAppUsage
         public static int getIntForUser(ContentResolver cr, String name, int def, int userHandle) {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
+                return 0 /* Disabled */;
+            }
             String v = getStringForUser(cr, name, userHandle);
             return parseIntSettingWithDefault(v, def);
         }
@@ -6632,6 +6632,9 @@ public final class Settings {
         /** @hide */
         public static int getIntForUser(ContentResolver cr, String name, int userHandle)
                 throws SettingNotFoundException {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
+                return 0 /* Disabled */;
+            }
             String v = getStringForUser(cr, name, userHandle);
             return parseIntSetting(v, name);
         }
@@ -16432,9 +16435,6 @@ public final class Settings {
         @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.R, trackingBug = 170729553)
         public static String getStringForUser(ContentResolver resolver, String name,
                 int userHandle) {
-            if(HidedeveloperStatusUtils.shouldHideDevStatus(resolver, resolver.getPackageName(), name)) {
-                return "0";
-            }
             if (MOVED_TO_SECURE.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.Global"
                         + " to android.provider.Settings.Secure, returning read-only value.");
@@ -16645,6 +16645,9 @@ public final class Settings {
          * or not a valid integer.
          */
         public static int getInt(ContentResolver cr, String name, int def) {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
+                return 0 /* Disabled */;
+            }
             String v = getString(cr, name);
             return parseIntSettingWithDefault(v, def);
         }
@@ -16669,6 +16672,9 @@ public final class Settings {
          */
         public static int getInt(ContentResolver cr, String name)
                 throws SettingNotFoundException {
+            if (HideDeveloperStatusUtils.shouldHideDevStatus(cr, cr.getPackageName(), name)) {
+                return 0 /* Disabled */;
+            }
             String v = getString(cr, name);
             return parseIntSetting(v, name);
         }
