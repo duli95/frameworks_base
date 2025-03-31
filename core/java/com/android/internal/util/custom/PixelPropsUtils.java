@@ -183,21 +183,48 @@ public class PixelPropsUtils {
 
                 dlog("Spoofing build for GMS");
                 // Alter build parameters to pixel for avoiding hardware attestation enforcement
-                setPropValue("MANUFACTURER", "Google");
-                setPropValue("MODEL", "Pixel 6");
-                setPropValue("FINGERPRINT", "google/oriole_beta/oriole:16/BP22.250221.010/13193326:user/release-keys");
-                setPropValue("BRAND", "google");
-                setPropValue("BOARD", "google");
-                setPropValue("HARDWARE", "oriole");
-                setPropValue("PRODUCT", "oriole_beta");
-                setPropValue("DEVICE", "oriole");
-                setPropValue("ID", "BP22.250221.010");
-                setPropValue("TYPE", "user");
-                setPropValue("TAGS", "release-keys");
-                setVersionFieldString("RELEASE", "16");
-                setVersionFieldString("INCREMENTAL", "13193326");
-                setVersionFieldString("SECURITY_PATCH", "2025-03-05");
-                setVersionField("DEVICE_INITIAL_SDK_INT", 21);
+
+                if(!checkFingerprintData()){
+                    Log.i(TAG, "No fingerprint data available, using default values");
+                    setPropValue("MANUFACTURER", "Google");
+                    setPropValue("MODEL", "Pixel 6");
+                    setPropValue("FINGERPRINT", "google/oriole_beta/oriole:16/BP22.250221.010/13193326:user/release-keys");
+                    setPropValue("BRAND", "google");
+                    setPropValue("BOARD", "google");
+                    setPropValue("HARDWARE", "oriole");
+                    setPropValue("PRODUCT", "oriole_beta");
+                    setPropValue("DEVICE", "oriole");
+                    setPropValue("ID", "BP22.250221.010");
+                    setPropValue("TYPE", "user");
+                    setPropValue("TAGS", "release-keys");
+                    setVersionFieldString("RELEASE", "16");
+                    setVersionFieldString("INCREMENTAL", "13193326");
+                    setVersionFieldString("SECURITY_PATCH", "2025-03-05");
+                    setVersionField("DEVICE_INITIAL_SDK_INT", 21);
+                }else{
+                    Log.i(TAG, "Fingerprint data available, using values from fingerprint data");
+                    setPropValue("MANUFACTURER", FingerprintManager.getManufacturer());
+                    setPropValue("MODEL", FingerprintManager.getModel());
+                    setPropValue("FINGERPRINT", FingerprintManager.getFingerprint());
+                    setPropValue("BRAND", FingerprintManager.getBrand());
+                    setPropValue("BOARD", FingerprintManager.getBrand());
+                    setPropValue("HARDWARE", FingerprintManager.getDevice());
+                    setPropValue("PRODUCT", FingerprintManager.getProduct());
+                    setPropValue("DEVICE", FingerprintManager.getDevice());
+                    setPropValue("ID", FingerprintManager.getId());
+                    setPropValue("TYPE", "user");
+                    setPropValue("TAGS", "release-keys");
+                    setVersionFieldString("RELEASE", FingerprintManager.getRelease());
+                    setVersionFieldString("INCREMENTAL", FingerprintManager.getIncremental());
+                    setVersionFieldString("SECURITY_PATCH", FingerprintManager.getSecurityPatch());
+                    int device_initial_sdk_int = 21;
+                    try {
+                        device_initial_sdk_int = Integer.parseInt(FingerprintManager.getDeviceInitialSdkInt());
+                    } catch (Exception e) {
+                        device_initial_sdk_int = 21;
+                    }
+                    setVersionField("DEVICE_INITIAL_SDK_INT", device_initial_sdk_int);
+                }
 
                 return true;
             }
@@ -205,6 +232,20 @@ public class PixelPropsUtils {
         return false;
     }
 
+    private static boolean checkFingerprintData(){
+        return FingerprintManager.isFingerprintAvailable()
+            && FingerprintManager.getManufacturer() != null
+            && FingerprintManager.getModel() != null
+            && FingerprintManager.getFingerprint() != null
+            && FingerprintManager.getBrand() != null
+            && FingerprintManager.getProduct() != null
+            && FingerprintManager.getDevice() != null
+            && FingerprintManager.getId() != null
+            && FingerprintManager.getRelease() != null
+            && FingerprintManager.getIncremental() != null
+            && FingerprintManager.getSecurityPatch() != null
+            && FingerprintManager.getDeviceInitialSdkInt() != null;
+    }
 
     public static void setProps(String packageName) {
         propsToChangeGeneric.forEach((k, v) -> setPropValue(k, v));
