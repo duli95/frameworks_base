@@ -84,7 +84,7 @@ public final class SigningDetails implements Parcelable {
      * instance, the platform would like to determine whether or not to allow this APK to do
      * something it would've allowed it to do under the old cert (like upgrade).
      */
-    private final @Nullable Signature[] mPastSigningCertificates;
+    private @Nullable Signature[] mPastSigningCertificates;
 
     /** special value used to see if cert is in package - not exposed to callers */
     private static final int PAST_CERT_EXISTS = 0;
