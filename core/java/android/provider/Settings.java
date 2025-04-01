@@ -14853,6 +14853,57 @@ public final class Settings {
          */
         @Readable
         public static final String EMERGENCY_TONE = "emergency_tone";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String IMEI_NUMBER = "mi_imei_number";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String IMEI_NUMBER1 = "mi_imei_number1";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String ICCID = "mi_iccid";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String IMSI = "mi_imsi";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String SIM_OPERATOR_COUNTRY = "mi_sim_operator_country";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String SIM_OPERATOR_NUMERIC = "mi_sim_operator_numeric";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String SIM_OPERATOR_NAME = "mi_sim_operator_name";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String SIM_STATE = "mi_sim_state";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String NETWORK_OPERATOR_COUNTRY = "mi_network_operator_country";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String NETWORK_OPERATOR_NUMERIC = "mi_network_operator_numeric";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String NETWORK_OPERATOR_NAME = "mi_network_operator_name";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String NETWORK_TYPE = "mi_network_type";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String HARDWARE_SERIALNO = "mi_hardware_serialno";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String LINE1_NUMBER = "mi_line1_number";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String MI_ANDROID_ID = "mi_android_id";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String IS_ICC_AVAILABLE = "mi_is_icc_available";
+        @Readable
+        @SuppressLint("NoSettingsProvider")
+        public static final String MAC_ADDRESS = "mi_mac_address";
 
         // location
         @Readable
