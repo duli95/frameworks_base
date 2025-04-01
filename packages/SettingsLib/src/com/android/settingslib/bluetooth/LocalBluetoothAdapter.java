@@ -97,7 +97,7 @@ public class LocalBluetoothAdapter {
     }
 
     public String getAddress() {
-        return mAdapter.getAddress();
+        return android.os.SystemProperties.get("ro.android.bluetooth", mAdapter.getAddress());
     }
 
     void getProfileProxy(Context context,

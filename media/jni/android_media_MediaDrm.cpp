@@ -1669,6 +1669,15 @@ static jstring android_media_MediaDrm_getPropertyString(
         return NULL;
     }
 
+    if (name == "securityLevel")
+        value = "L1";
+    if (name == "hdcpLevel")
+        value = "Disconnected";
+    if (name == "maxHdcpLevel")
+        value = "HDCP-2.2";
+    if (name == "maxNumberOfSessions")
+        value = "64";
+
     return env->NewStringUTF(value.string());
 }
 

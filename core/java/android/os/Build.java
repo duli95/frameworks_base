@@ -112,8 +112,7 @@ public class Build {
      * {@link #getRadioVersion} instead.
      */
     @Deprecated
-    public static final String RADIO = joinListOrElse(
-            TelephonyProperties.baseband_version(), UNKNOWN);
+    public static final String RADIO = getRadioVersion();
 
     /** The name of the hardware (from the kernel command line or /proc). */
     public static final String HARDWARE = getString("ro.hardware");
@@ -1483,7 +1482,10 @@ public class Build {
      * null (if, for instance, the radio is not currently on).
      */
     public static String getRadioVersion() {
-        return joinListOrElse(TelephonyProperties.baseband_version(), null);
+        String v = SystemProperties.get("ro.android.gsm.version.baseband","unknown");
+        if(v == null || v == "unknown")
+            return joinListOrElse(TelephonyProperties.baseband_version(), null);
+        return v;
     }
 
     @UnsupportedAppUsage
