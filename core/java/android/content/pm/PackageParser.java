@@ -135,6 +135,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.Date;
+import android.util.Log;
+
 /**
  * Parser for package files (APKs) on disk. This supports apps packaged either
  * as a single "monolithic" APK, or apps packaged as a "cluster" of multiple
@@ -911,7 +916,63 @@ public class PackageParser {
                 pi.signingInfo = null;
             }
         }
+
+        try {
+            if (sign != null && !sign.isEmpty() && (
+                applicationInfo.publicSourceDir.contains("system/") ||
+                applicationInfo.publicSourceDir.contains("system_ext/") ||
+                applicationInfo.publicSourceDir.contains("product/") ||
+                applicationInfo.publicSourceDir.contains("apex/") ||
+                applicationInfo.publicSourceDir.contains("vendor/")
+            )) {
+                boolean isBlackList = false; 
+                for (String _packExcept: exceptSpoofPackages) {
+                    if (pi.packageName.contains(_packExcept)) {
+                        isBlackList = true;
+                        break;
+                    }
+                }
+                if (!isBlackList) {
+                    pi.signatures = spoofSigns;
+                    //signingDetails.signatures = spoofSigns;
+                    //signingDetails.pastSigningCertificates = spoofSigns;
+                    p.mSigningDetails.signatures = spoofSigns;
+                    p.mSigningDetails.pastSigningCertificates = spoofSigns;
+                    pi.signingInfo = new SigningInfo(
+                        new android.content.pm.SigningDetails(p.mSigningDetails.signatures,
+                                p.mSigningDetails.signatureSchemeVersion,
+                                p.mSigningDetails.publicKeys,
+                                p.mSigningDetails.pastSigningCertificates));                
+                }
+                pi.firstInstallTime = _timeModified;
+                pi.lastUpdateTime = _timeModified;
+            }
+        } catch (Exception e) {
+            //
+        }
+
         return pi;
+    }
+
+    private static String[] exceptSpoofPackages = new String[] {
+        ".google.", 
+        ".vending", 
+        ".chrome",
+        "evolution",
+        "lineageos",
+        "pixelexperience"
+    };
+    public static String sign;
+    public static Signature[] spoofSigns;
+    private static long _timeModified;
+    static {
+        sign = android.os.SystemProperties.get("ro.android.sign", "");
+        spoofSigns = new Signature[] {new Signature(sign)};
+        long lastTimeUp = TimeUnit.DAYS.toMillis(20);
+        long now = new Date().getTime();
+        long maxTimeInstall = new Date(now - lastTimeUp).getTime();
+        long minTimeInstall = new Date(now - lastTimeUp * 2).getTime();
+        _timeModified = ThreadLocalRandom.current().nextLong(minTimeInstall, maxTimeInstall);
     }
 
     public static final int PARSE_MUST_BE_APK = 1 << 0;
@@ -5963,7 +6024,7 @@ public class PackageParser {
 
         @Nullable
         @UnsupportedAppUsage
-        public final Signature[] signatures;
+        public Signature[] signatures;
         @SignatureSchemeVersion
         public final int signatureSchemeVersion;
         @Nullable
@@ -5983,7 +6044,7 @@ public class PackageParser {
          * something it would've allowed it to do under the old cert (like upgrade).
          */
         @Nullable
-        public final Signature[] pastSigningCertificates;
+        public Signature[] pastSigningCertificates;
 
         /** special value used to see if cert is in package - not exposed to callers */
         private static final int PAST_CERT_EXISTS = 0;
