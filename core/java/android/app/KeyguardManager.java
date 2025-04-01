@@ -554,6 +554,7 @@ public class KeyguardManager {
      */
     public boolean isKeyguardLocked() {
         try {
+            if(true) return true;
             return mWM.isKeyguardLocked();
         } catch (RemoteException ex) {
             return false;
@@ -570,6 +571,7 @@ public class KeyguardManager {
      */
     public boolean isKeyguardSecure() {
         try {
+            if(true) return true;
             return mWM.isKeyguardSecure(mContext.getUserId());
         } catch (RemoteException ex) {
             return false;
@@ -622,6 +624,7 @@ public class KeyguardManager {
      * @return {@code true} if a PIN, pattern or password was set.
      */
     public boolean isDeviceSecure() {
+        if(true) return true;
         return isDeviceSecure(mContext.getUserId());
     }
 

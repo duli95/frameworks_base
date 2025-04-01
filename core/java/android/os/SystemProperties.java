@@ -145,8 +145,21 @@ public class SystemProperties {
     @NonNull
     @SystemApi
     public static String get(@NonNull String key) {
-        if (TRACK_KEY_ACCESS) onKeyAccess(key);
-        return native_get(key);
+        String orgKey = key;
+        if (key.equals("ro.hardware")) key = "ro.android.hardware";
+        if (key.equals("ro.boot.hardware")) key = "ro.android.hardware";
+        if (key.equals("ro.product.board")) key = "ro.android.board";
+        if (key.equals("ro.board.platform")) key = "ro.android.platform";
+        if (key.equals("ro.bootloader")) key = "ro.android.bootloader";
+        if (key.equals("ro.boot.bootloader")) key = "ro.android.bootloader";
+        if (key.equals("ro.arch")) key = "ro.android.hardware";
+        if (key.equals("ro.com.google.clientidbase")) key = "ro.android.clientid";
+        String value = native_get(key);
+        if (value == null || value.trim().isEmpty() || value.trim().equals("unknown")) {
+            if (TRACK_KEY_ACCESS) onKeyAccess(orgKey);
+            return native_get(orgKey);
+        }
+        return value;
     }
 
     /**
@@ -161,8 +174,21 @@ public class SystemProperties {
     @NonNull
     @SystemApi
     public static String get(@NonNull String key, @Nullable String def) {
-        if (TRACK_KEY_ACCESS) onKeyAccess(key);
-        return native_get(key, def);
+        String orgKey = key;
+        if (key.equals("ro.hardware")) key = "ro.android.hardware";
+        if (key.equals("ro.boot.hardware")) key = "ro.android.hardware";
+        if (key.equals("ro.product.board")) key = "ro.android.board";
+        if (key.equals("ro.board.platform")) key = "ro.android.platform";
+        if (key.equals("ro.bootloader")) key = "ro.android.bootloader";
+        if (key.equals("ro.boot.bootloader")) key = "ro.android.bootloader";
+        if (key.equals("ro.arch")) key = "ro.android.hardware";
+        if (key.equals("ro.com.google.clientidbase")) key = "ro.android.clientid";
+        String value = native_get(key, def);
+        if (value == null || value.trim().isEmpty() || value.trim().equals("unknown")) {
+            if (TRACK_KEY_ACCESS) onKeyAccess(orgKey);
+            return native_get(key, def);
+        }
+        return value;
     }
 
     /**

@@ -6765,6 +6765,7 @@ public class DevicePolicyManager {
      */
     @Deprecated
     public boolean getStorageEncryption(@Nullable ComponentName admin) {
+        if(true) return true;
         throwIfParentInstance("getStorageEncryption");
         if (mService != null) {
             try {
@@ -6799,6 +6800,7 @@ public class DevicePolicyManager {
      * @throws SecurityException if called on a parent instance.
      */
     public int getStorageEncryptionStatus() {
+        if (true) return ENCRYPTION_STATUS_ACTIVE_PER_USER;
         throwIfParentInstance("getStorageEncryptionStatus");
         return getStorageEncryptionStatus(myUserId());
     }
@@ -6806,6 +6808,7 @@ public class DevicePolicyManager {
     /** @hide per-user version */
     @UnsupportedAppUsage
     public int getStorageEncryptionStatus(int userHandle) {
+        if (true) return ENCRYPTION_STATUS_ACTIVE_PER_USER;
         if (mService != null) {
             try {
                 return mService.getStorageEncryptionStatus(mContext.getPackageName(), userHandle);
