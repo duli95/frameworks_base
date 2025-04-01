@@ -186,44 +186,38 @@ public class PixelPropsUtils {
 
                 if(!checkFingerprintData()){
                     Log.i(TAG, "No fingerprint data available, using default values");
-                    setPropValue("MANUFACTURER", "Google");
-                    setPropValue("MODEL", "Pixel 6");
-                    setPropValue("FINGERPRINT", "google/oriole_beta/oriole:16/BP22.250221.010/13193326:user/release-keys");
-                    setPropValue("BRAND", "google");
-                    setPropValue("BOARD", "google");
-                    setPropValue("HARDWARE", "oriole");
-                    setPropValue("PRODUCT", "oriole_beta");
-                    setPropValue("DEVICE", "oriole");
-                    setPropValue("ID", "BP22.250221.010");
-                    setPropValue("TYPE", "user");
-                    setPropValue("TAGS", "release-keys");
-                    setVersionFieldString("RELEASE", "16");
-                    setVersionFieldString("INCREMENTAL", "13193326");
-                    setVersionFieldString("SECURITY_PATCH", "2025-03-05");
-                    setVersionField("DEVICE_INITIAL_SDK_INT", 21);
+                    setPropValue2("MANUFACTURER", "Google");
+                    setPropValue2("MODEL", "Pixel 6");
+                    setPropValue2("FINGERPRINT", "google/oriole_beta/oriole:16/BP22.250221.010/13193326:user/release-keys");
+                    setPropValue2("BRAND", "google");
+                    setPropValue2("BOARD", "google");
+                    setPropValue2("HARDWARE", "oriole");
+                    setPropValue2("PRODUCT", "oriole_beta");
+                    setPropValue2("DEVICE", "oriole");
+                    setPropValue2("ID", "BP22.250221.010");
+                    setPropValue2("TYPE", "user");
+                    setPropValue2("TAGS", "release-keys");
+                    setPropValue2("VERSION.RELEASE", "16");
+                    setPropValue2("VERSION.INCREMENTAL", "13193326");
+                    setPropValue2("VERSION.SECURITY_PATCH", "2025-03-05");
+                    setPropValue2("VERSION.DEVICE_INITIAL_SDK_INT", "21");
                 }else{
                     Log.i(TAG, "Fingerprint data available, using values from fingerprint data");
-                    setPropValue("MANUFACTURER", DeviceInfoManager.getManufacturer());
-                    setPropValue("MODEL", DeviceInfoManager.getModel());
-                    setPropValue("FINGERPRINT", DeviceInfoManager.getFingerprint());
-                    setPropValue("BRAND", DeviceInfoManager.getBrand());
-                    setPropValue("BOARD", DeviceInfoManager.getBrand());
-                    setPropValue("HARDWARE", DeviceInfoManager.getDevice());
-                    setPropValue("PRODUCT", DeviceInfoManager.getProduct());
-                    setPropValue("DEVICE", DeviceInfoManager.getDevice());
-                    setPropValue("ID", DeviceInfoManager.getId());
-                    setPropValue("TYPE", "user");
-                    setPropValue("TAGS", "release-keys");
-                    setVersionFieldString("RELEASE", DeviceInfoManager.getRelease());
-                    setVersionFieldString("INCREMENTAL", DeviceInfoManager.getIncremental());
-                    setVersionFieldString("SECURITY_PATCH", DeviceInfoManager.getSecurityPatch());
-                    int device_initial_sdk_int = 21;
-                    try {
-                        device_initial_sdk_int = Integer.parseInt(DeviceInfoManager.getDeviceInitialSdkInt());
-                    } catch (Exception e) {
-                        device_initial_sdk_int = 21;
-                    }
-                    setVersionField("DEVICE_INITIAL_SDK_INT", device_initial_sdk_int);
+                    setPropValue2("MANUFACTURER", DeviceInfoManager.getManufacturer());
+                    setPropValue2("MODEL", DeviceInfoManager.getModel());
+                    setPropValue2("FINGERPRINT", DeviceInfoManager.getFingerprint());
+                    setPropValue2("BRAND", DeviceInfoManager.getBrand());
+                    setPropValue2("BOARD", DeviceInfoManager.getBrand());
+                    setPropValue2("HARDWARE", DeviceInfoManager.getDevice());
+                    setPropValue2("PRODUCT", DeviceInfoManager.getProduct());
+                    setPropValue2("DEVICE", DeviceInfoManager.getDevice());
+                    setPropValue2("ID", DeviceInfoManager.getId());
+                    setPropValue2("TYPE", "user");
+                    setPropValue2("TAGS", "release-keys");
+                    setPropValue2("VERSION.RELEASE", DeviceInfoManager.getRelease());
+                    setPropValue2("VERSION.INCREMENTAL", DeviceInfoManager.getIncremental());
+                    setPropValue2("VERSION.SECURITY_PATCH", DeviceInfoManager.getSecurityPatch());
+                    setPropValue2("VERSION.DEVICE_INITIAL_SDK_INT", DeviceInfoManager.getDeviceInitialSdkInt());
                 }
 
                 return true;
@@ -245,6 +239,34 @@ public class PixelPropsUtils {
             && DeviceInfoManager.getIncremental() != null
             && DeviceInfoManager.getSecurityPatch() != null
             && DeviceInfoManager.getDeviceInitialSdkInt() != null;
+    }
+
+        private static void setPropValue2(String key, Object value) {
+        setPropValue(key, value.toString());
+    }
+
+    private static void setPropValue2(String key, String value) {
+        try {
+            if (DEBUG) Log.d(TAG, "Defining prop " + key + " to " + value);
+            Class<?> clazz = Build.class;
+            if (key.startsWith("VERSION.")) {
+                clazz = Build.VERSION.class;
+                key = key.substring(8);
+            }
+            Field field = clazz.getDeclaredField(key);
+            field.setAccessible(true);
+            // Determine the field type and parse the value accordingly.
+            if (field.getType().equals(Integer.TYPE)) {
+                field.set(null, Integer.parseInt(value));
+            } else if (field.getType().equals(Long.TYPE)) {
+                field.set(null, Long.parseLong(value));
+            } else {
+                field.set(null, value);
+            }
+            field.setAccessible(false);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to set prop " + key, e);
+        }
     }
 
     public static void setProps(String packageName) {
