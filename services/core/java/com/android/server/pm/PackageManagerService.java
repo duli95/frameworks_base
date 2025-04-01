@@ -456,6 +456,8 @@ public class PackageManagerService implements PackageSender, TestUtilityService 
 
     static final int[] EMPTY_INT_ARRAY = new int[0];
 
+    static final String vending = "com.android.vending";
+
     /**
      * Timeout (in milliseconds) after which the watchdog should declare that
      * our handler thread is wedged.  The usual default for such things is one

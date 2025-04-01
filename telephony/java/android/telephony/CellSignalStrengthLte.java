@@ -212,6 +212,10 @@ public final class CellSignalStrengthLte extends CellSignalStrength implements P
         return mLevel;
     }
 
+    public void setParametersUseForLevel(int p) {
+        mParametersUseForLevel = p;
+    }
+
     // Lifted from Default carrier configs and max range of RSRP
     private static final int[] sRsrpThresholds = new int[] {
             -115, /* SIGNAL_STRENGTH_POOR */
