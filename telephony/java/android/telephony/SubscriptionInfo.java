@@ -51,6 +51,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import com.android.internal.util.custom.SpoofSim;
+
 /**
  * A Parcelable class for Subscription Information.
  */
@@ -370,6 +372,11 @@ public class SubscriptionInfo implements Parcelable {
      * @return the ICC ID, or an empty string if one of these requirements is not met
      */
     public String getIccId() {
+        try {
+           if(!SpoofSim.spoofIccId().isEmpty()) return SpoofSim.spoofIccId();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         return this.mIccId;
     }
 
@@ -384,6 +391,11 @@ public class SubscriptionInfo implements Parcelable {
      * @return the slot index of this Subscription's SIM card.
      */
     public int getSimSlotIndex() {
+        try {
+            if(SpoofSim.getSpoofStatus()) return 0;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
         return this.mSimSlotIndex;
     }
 
@@ -392,6 +404,11 @@ public class SubscriptionInfo implements Parcelable {
      * @see TelephonyManager#getSimCarrierId()
      */
     public int getCarrierId() {
+        try {
+            if(SpoofSim.getSpoofStatus() && SpoofSim.spoofCarrierId() >= 0) return SpoofSim.spoofCarrierId();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
         return this.mCarrierId;
     }
 
@@ -529,6 +546,11 @@ public class SubscriptionInfo implements Parcelable {
      */
     @Deprecated
     public String getNumber() {
+        try {
+           if(SpoofSim.getSpoofStatus() && !SpoofSim.spoofSimNumber().isEmpty()) return SpoofSim.spoofSimNumber();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         return mNumber;
     }
 
@@ -593,6 +615,11 @@ public class SubscriptionInfo implements Parcelable {
      * @return the ISO country code
      */
     public String getCountryIso() {
+        try {
+           if(SpoofSim.getSpoofStatus() && !SpoofSim.spoofCountryIso().isEmpty()) return SpoofSim.spoofCountryIso();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         return this.mCountryIso;
     }
 

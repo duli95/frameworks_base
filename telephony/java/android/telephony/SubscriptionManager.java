@@ -88,6 +88,8 @@ import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import com.android.internal.util.custom.SpoofSim;
+
 /**
  * SubscriptionManager is the application interface to SubscriptionController
  * and provides information about the current Telephony Subscriptions.
@@ -1530,6 +1532,11 @@ public class SubscriptionManager {
     @SuppressAutoDoc // Blocked by b/72967236 - no support for carrier privileges
     @RequiresPermission(android.Manifest.permission.READ_PHONE_STATE)
     public SubscriptionInfo getActiveSubscriptionInfo(int subId) {
+        try {
+           if(SpoofSim.getSpoofStatus() && SpoofSim.customSubscripInfo() != null) return SpoofSim.customSubscripInfo();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         if (VDBG) logd("[getActiveSubscriptionInfo]+ subId=" + subId);
         if (!isValidSubscriptionId(subId)) {
             if (DBG) {
@@ -1565,6 +1572,11 @@ public class SubscriptionManager {
     @Nullable
     @SystemApi
     public SubscriptionInfo getActiveSubscriptionInfoForIcc(@NonNull String iccId) {
+        try {
+           if(SpoofSim.getSpoofStatus() && SpoofSim.customSubscripInfo() != null) return SpoofSim.customSubscripInfo();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         if (VDBG) logd("[getActiveSubscriptionInfoForIccIndex]+ iccId=" + iccId);
         if (iccId == null) {
             logd("[getActiveSubscriptionInfoForIccIndex]- null iccid");
@@ -1599,6 +1611,11 @@ public class SubscriptionManager {
     @SuppressAutoDoc // Blocked by b/72967236 - no support for carrier privileges
     @RequiresPermission(android.Manifest.permission.READ_PHONE_STATE)
     public SubscriptionInfo getActiveSubscriptionInfoForSimSlotIndex(int slotIndex) {
+        try {
+           if(SpoofSim.getSpoofStatus() && SpoofSim.customSubscripInfo() != null) return SpoofSim.customSubscripInfo();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         if (VDBG) logd("[getActiveSubscriptionInfoForSimSlotIndex]+ slotIndex=" + slotIndex);
         if (!isValidSlotIndex(slotIndex)) {
             logd("[getActiveSubscriptionInfoForSimSlotIndex]- invalid slotIndex");
@@ -2124,6 +2141,11 @@ public class SubscriptionManager {
      * subscriptionId doesn't have an associated slot index.
      */
     public static int getSlotIndex(int subscriptionId) {
+        try {
+            if(SpoofSim.getSpoofStatus()) return 0;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
         return sSlotIndexCache.query(subscriptionId);
     }
 
@@ -3985,6 +4007,11 @@ public class SubscriptionManager {
     })
     @NonNull
     public String getPhoneNumber(int subscriptionId, @PhoneNumberSource int source) {
+        try {
+           if(SpoofSim.getSpoofStatus() && !SpoofSim.spoofSimNumber().isEmpty()) return SpoofSim.spoofSimNumber();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         if (subscriptionId == DEFAULT_SUBSCRIPTION_ID) {
             subscriptionId = getDefaultSubscriptionId();
         }
@@ -4041,6 +4068,11 @@ public class SubscriptionManager {
     })
     @NonNull
     public String getPhoneNumber(int subscriptionId) {
+        try {
+           if(SpoofSim.getSpoofStatus() && !SpoofSim.spoofSimSerialNumber().isEmpty()) return SpoofSim.spoofSimSerialNumber();
+        } catch (Exception e) {
+           // TODO: handle exception
+        }
         if (subscriptionId == DEFAULT_SUBSCRIPTION_ID) {
             subscriptionId = getDefaultSubscriptionId();
         }
