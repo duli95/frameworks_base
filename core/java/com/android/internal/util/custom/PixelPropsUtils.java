@@ -48,7 +48,7 @@ public class PixelPropsUtils {
 
     private static final boolean DEBUG = false;
 
-    private static final boolean USE_KEYBOX = "persist.sys.use.keybox";
+    private static final String USE_KEYBOX = "persist.sys.use.keybox";
 
     private static final Map<String, Object> propsToChangeGeneric;
     private static final Map<String, Object> propsToChangePixel7Pro;
