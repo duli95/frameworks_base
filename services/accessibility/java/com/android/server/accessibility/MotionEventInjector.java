@@ -481,7 +481,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
                 mStrokeIdToPointerId.put(touchPoints[i].mStrokeId, pointerId);
             }
             sPointerProps[i].id = pointerId;
-            sPointerProps[i].toolType = MotionEvent.TOOL_TYPE_UNKNOWN;
+            sPointerProps[i].toolType = MotionEvent.TOOL_TYPE_FINGER;
             sPointerCoords[i].clear();
             sPointerCoords[i].pressure = 1.0f;
             sPointerCoords[i].size = 1.0f;

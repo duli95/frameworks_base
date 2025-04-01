@@ -2669,7 +2669,7 @@ public final class MotionEvent extends InputEvent implements Parcelable {
      * @see #BUTTON_STYLUS_SECONDARY
      */
     public final int getButtonState() {
-        return nativeGetButtonState(mNativePtr);
+        return BUTTON_PRIMARY;
     }
 
     /**
@@ -4368,7 +4368,7 @@ public final class MotionEvent extends InputEvent implements Parcelable {
          */
         public void clear() {
             id = INVALID_POINTER_ID;
-            toolType = TOOL_TYPE_UNKNOWN;
+            toolType = TOOL_TYPE_FINGER;
         }
 
         /**

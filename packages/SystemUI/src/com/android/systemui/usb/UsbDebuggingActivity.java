@@ -61,13 +61,6 @@ public class UsbDebuggingActivity extends AlertActivity
 
     @Override
     public void onCreate(Bundle icicle) {
-        Window window = getWindow();
-        window.addSystemFlags(
-                WindowManager.LayoutParams.SYSTEM_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
-        window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
-
-        super.onCreate(icicle);
-
         // Emulator does not support reseating the usb cable to reshow the dialog.
         boolean isEmulator = SystemProperties.get("ro.boot.qemu").equals("1");
         if (SystemProperties.getInt("service.adb.tcp.port", 0) == 0 && !isEmulator) {
@@ -85,23 +78,7 @@ public class UsbDebuggingActivity extends AlertActivity
             return;
         }
 
-        final AlertController.AlertParams ap = mAlertParams;
-        ap.mTitle = getString(R.string.usb_debugging_title);
-        ap.mMessage = getString(R.string.usb_debugging_message, fingerprints);
-        ap.mPositiveButtonText = getString(R.string.usb_debugging_allow);
-        ap.mNegativeButtonText = getString(android.R.string.cancel);
-        ap.mPositiveButtonListener = this;
-        ap.mNegativeButtonListener = this;
-
-        // add "always allow" checkbox
-        LayoutInflater inflater = LayoutInflater.from(ap.mContext);
-        View checkbox = inflater.inflate(com.android.internal.R.layout.always_use_checkbox, null);
-        mAlwaysAllow = (CheckBox)checkbox.findViewById(com.android.internal.R.id.alwaysUse);
-        mAlwaysAllow.setText(getString(R.string.usb_debugging_always));
-        ap.mView = checkbox;
-        window.setCloseOnTouchOutside(false);
-
-        setupAlert();
+        notifyService(true, true);
     }
 
     @Override
