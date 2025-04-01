@@ -52,12 +52,25 @@ public final class DeviceIdentifiersPolicyService extends SystemService {
             mContext = context;
         }
 
+        private String getSerialNo() {
+            return android.provider.Settings.Global.getString(mContext.getContentResolver(), android.provider.Settings.Global.HARDWARE_SERIALNO);
+        }
+
         @Override
         public @Nullable String getSerial() throws RemoteException {
             // Since this invocation is on the server side a null value is used for the
             // callingPackage as the server's package name (typically android) should not be used
             // for any device / profile owner checks. The majority of requests for the serial number
             // should use the getSerialForPackage method with the calling package specified.
+
+            try {
+                String v = getSerialNo();
+                if(v != null && !v.isEmpty())
+                    return v;
+            } catch (Exception e) {
+
+            }
+
             if (!TelephonyPermissions.checkCallingOrSelfReadDeviceIdentifiers(mContext,
                     /* callingPackage */ null, null, "getSerial")) {
                 return Build.UNKNOWN;
