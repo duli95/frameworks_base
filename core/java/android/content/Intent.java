@@ -95,6 +95,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 
+import com.android.internal.util.custom.HideDeveloperStatusUtils;
+
 /**
  * An intent is an abstract description of an operation to be performed.  It
  * can be used with {@link Context#startActivity(Intent) startActivity} to
@@ -8781,6 +8783,9 @@ public class Intent implements Parcelable, Cloneable {
      * @see #putExtra(String, boolean)
      */
     public boolean getBooleanExtra(String name, boolean defaultValue) {
+        if(name != null && HideDeveloperStatusUtils.shouldHideDevStatusIntent(name)){
+            return false;
+        }
         return mExtras == null ? defaultValue :
             mExtras.getBoolean(name, defaultValue);
     }

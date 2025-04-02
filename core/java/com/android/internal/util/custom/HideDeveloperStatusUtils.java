@@ -43,6 +43,13 @@ public class HideDeveloperStatusUtils {
         return apps.contains(packageName) && settingsToHide.contains(name);
     }
 
+    public static boolean shouldHideDevStatusIntent(String name){
+        if(name.equals("adb")){
+            return true;
+        }
+        return false;
+    }
+
     private static Set<String> getApps(Context context) {
         if (context == null) {
             return new HashSet<>();
