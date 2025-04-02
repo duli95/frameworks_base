@@ -410,7 +410,7 @@ public class PixelPropsUtils {
     }
 
     public static void onEngineGetCertificateChain() {
-        if(!KeyProviderManager.isKeyboxAvailable()) {
+        if(KeyProviderManager.isKeyboxAvailable()) {
             return;
         }
 
