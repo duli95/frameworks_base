@@ -48,7 +48,7 @@ public class PixelPropsUtils {
 
     private static final boolean DEBUG = false;
 
-    private static final String USE_KEYBOX = "persist.sys.use.keybox";
+    public static final String SPOOF_PIXEL_GMS = "persist.sys.pixelprops.gms";
 
     private static final Map<String, Object> propsToChangeGeneric;
     private static final Map<String, Object> propsToChangePixel7Pro;
@@ -241,7 +241,7 @@ public class PixelPropsUtils {
             && DeviceInfoManager.getDeviceInitialSdkInt() != null;
     }
 
-        private static void setPropValue2(String key, Object value) {
+    private static void setPropValue2(String key, Object value) {
         setPropValue(key, value.toString());
     }
 
@@ -410,13 +410,13 @@ public class PixelPropsUtils {
     }
 
     public static void onEngineGetCertificateChain() {
-        if(!SystemProperties.getBoolean(USE_KEYBOX, true)) {
-            return;
-        }
-
         if(!KeyProviderManager.isKeyboxAvailable()) {
             return;
         }
+
+        boolean isPixelGmsEnabled = SystemProperties.getBoolean(SPOOF_PIXEL_GMS, true);
+        if (!isPixelGmsEnabled)
+            return;
 
         // Check stack for SafetyNet or Play Integrity
         if (isCallerSafetyNet() || sIsFinsky) {
