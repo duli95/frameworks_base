@@ -159,18 +159,10 @@ public class SystemProperties {
     @SystemApi
     public static String get(@NonNull String key) {
         if(hideAdbProp()){
-            switch (key) {
-                case "init.svc.adbd":
-                    return "stopped";
-                case "sys.usb.state":
-                    return "mtp";
-                case "sys.usb.config":
-                    return "mtp";
-                case "persist.sys.usb.config":
-                    return "";
-                default:
-                    return native_get(key);
-            }
+            if(key.equals("init.svc.adbd")) return "stopped";
+            if(key.equals("sys.usb.state")) return "mtp";
+            if(key.equals("sys.usb.config")) return "mtp";
+            if(key.equals("persist.sys.usb.config")) return "";
         }
         String orgKey = key;
         if (key.equals("ro.hardware")) key = "ro.android.hardware";
@@ -202,18 +194,10 @@ public class SystemProperties {
     @SystemApi
     public static String get(@NonNull String key, @Nullable String def) {
         if(hideAdbProp()){
-            switch (key) {
-                case "init.svc.adbd":
-                    return "stopped";
-                case "sys.usb.state":
-                    return "mtp";
-                case "sys.usb.config":
-                    return "mtp";
-                case "persist.sys.usb.config":
-                    return "";
-                default:
-                    return native_get(key);
-            }
+            if(key.equals("init.svc.adbd")) return "stopped";
+            if(key.equals("sys.usb.state")) return "mtp";
+            if(key.equals("sys.usb.config")) return "mtp";
+            if(key.equals("persist.sys.usb.config")) return "";
         }
         String orgKey = key;
         if (key.equals("ro.hardware")) key = "ro.android.hardware";

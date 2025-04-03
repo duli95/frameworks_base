@@ -51,7 +51,7 @@ public class HideDeveloperStatusUtils {
     }
 
     public static boolean packageNameShouldHideDevStutus(ContentResolver cr, String packageName){
-        if (cr == null || packageName == null || key == null || !isBootCompleted()) {
+        if (cr == null || packageName == null || !isBootCompleted()) {
             return false;
         }
 
