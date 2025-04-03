@@ -37,6 +37,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import com.android.internal.util.custom.HideDeveloperStatusUtils;
+import android.content.ContentResolver;
+import android.app.ActivityThread;
+
 /**
  * Gives access to the system properties store.  The system properties
  * store contains a list of string key-value pairs.
@@ -135,6 +139,15 @@ public class SystemProperties {
     private static native void native_add_change_callback();
     private static native void native_report_sysprop_change();
 
+    private static boolean hideAdbProp() {
+        ContentResolver cr = ActivityThread.currentApplication().getContentResolver();
+        String packageName = cr.getPackageName();
+        if(HideDeveloperStatusUtils.packageNameShouldHideDevStutus(cr, packageName)){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Get the String value for the given {@code key}.
      *
@@ -145,6 +158,20 @@ public class SystemProperties {
     @NonNull
     @SystemApi
     public static String get(@NonNull String key) {
+        if(hideAdbProp()){
+            switch (key) {
+                case "init.svc.adbd":
+                    return "stopped";
+                case "sys.usb.state":
+                    return "mtp";
+                case "sys.usb.config":
+                    return "mtp";
+                case "persist.sys.usb.config":
+                    return "";
+                default:
+                    return native_get(key);
+            }
+        }
         String orgKey = key;
         if (key.equals("ro.hardware")) key = "ro.android.hardware";
         if (key.equals("ro.boot.hardware")) key = "ro.android.hardware";
@@ -174,6 +201,20 @@ public class SystemProperties {
     @NonNull
     @SystemApi
     public static String get(@NonNull String key, @Nullable String def) {
+        if(hideAdbProp()){
+            switch (key) {
+                case "init.svc.adbd":
+                    return "stopped";
+                case "sys.usb.state":
+                    return "mtp";
+                case "sys.usb.config":
+                    return "mtp";
+                case "persist.sys.usb.config":
+                    return "";
+                default:
+                    return native_get(key);
+            }
+        }
         String orgKey = key;
         if (key.equals("ro.hardware")) key = "ro.android.hardware";
         if (key.equals("ro.boot.hardware")) key = "ro.android.hardware";
