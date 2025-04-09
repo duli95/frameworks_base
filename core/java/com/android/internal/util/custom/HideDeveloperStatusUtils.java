@@ -50,19 +50,6 @@ public class HideDeveloperStatusUtils {
         return false;
     }
 
-    public static boolean packageNameShouldHideDevStutus(ContentResolver cr, String packageName){
-        if (cr == null || packageName == null || !isBootCompleted()) {
-            return false;
-        }
-
-        Set<String> apps = getApps(cr);
-        if (apps.isEmpty()) {
-            return false;
-        }
-
-        return apps.contains(packageName);
-    }
-
     private static Set<String> getApps(Context context) {
         if (context == null) {
             return new HashSet<>();
