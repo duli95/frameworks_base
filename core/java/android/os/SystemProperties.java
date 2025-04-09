@@ -37,10 +37,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.android.internal.util.custom.HideDeveloperStatusUtils;
-import android.content.ContentResolver;
-import android.app.ActivityThread;
-
 /**
  * Gives access to the system properties store.  The system properties
  * store contains a list of string key-value pairs.
@@ -138,15 +134,6 @@ public class SystemProperties {
     @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P)
     private static native void native_add_change_callback();
     private static native void native_report_sysprop_change();
-
-    private static boolean hideAdbProp() {
-        ContentResolver cr = ActivityThread.currentApplication().getContentResolver();
-        String packageName = cr.getPackageName();
-        if(HideDeveloperStatusUtils.packageNameShouldHideDevStutus(cr, packageName)){
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Get the String value for the given {@code key}.
