@@ -50,6 +50,10 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.ContentResolver;
+import android.app.ActivityThread;
+import com.android.internal.util.custom.HideDeveloperStatusUtils;
+
 
 /**
  * Provides various debugging methods for Android applications, including
@@ -1048,6 +1052,14 @@ public final class Debug
      * Determine if a debugger is currently attached.
      */
     public static boolean isDebuggerConnected() {
+        try {
+            ContentResolver cr = ActivityThread.currentApplication().getContentResolver();
+            String packageName = cr.getPackageName();
+            if(HideDeveloperStatusUtils.shouldHidePackageName(cr, packageName))
+                return false;
+        } catch (RuntimeException e) {
+
+        }
         return VMDebug.isDebuggerConnected();
     }
 
