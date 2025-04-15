@@ -405,7 +405,7 @@ public class PixelPropsUtils {
     }
 
     private static boolean isCallerSafetyNet() {
-        return sIsGms && Arrays.stream(Thread.currentThread().getStackTrace())
+        return sIsGms || Arrays.stream(Thread.currentThread().getStackTrace())
                 .anyMatch(elem -> elem.getClassName().contains("DroidGuard"));
     }
 
@@ -418,11 +418,7 @@ public class PixelPropsUtils {
         if (!isPixelGmsEnabled)
             return;
 
-        // Check stack for SafetyNet or Play Integrity
-        if (isCallerSafetyNet() || sIsFinsky) {
-            Log.i(TAG, "Blocked key attestation sIsGms=" + sIsGms + " sIsFinsky=" + sIsFinsky);
-            throw new UnsupportedOperationException();
-        }
+        throw new UnsupportedOperationException();
     }
 
     public static void dlog(String msg) {
