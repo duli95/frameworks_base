@@ -49,11 +49,7 @@ public class HideDeveloperStatusUtils {
             return false;
         }
         
-        Log.i(TAG, "shouldHideDevStatus: packageName = " + packageName + ", name = " + name);
-
         boolean result = shouldHidePackageName(cr, packageName) && settingsToHide.contains(name);
-
-        Log.i(TAG, "shouldHideDevStatus: result = " + (result ? "true" : "false"));
 
         return result;
     }
@@ -67,7 +63,7 @@ public class HideDeveloperStatusUtils {
 
         Set<String> apps = getApps(cr);
 
-        boolean result = !whiteListHideDeveloperStatus.contains(packageName);
+        boolean result = !apps.contains(packageName) && !whiteListHideDeveloperStatus.contains(packageName);
 
         Log.i(TAG, "shouldHidePackageName: result = " + (result ? "true" : "false"));
 
