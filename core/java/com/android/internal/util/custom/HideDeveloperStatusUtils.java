@@ -29,57 +29,11 @@ public class HideDeveloperStatusUtils {
         SET
     }
 
-    private static final Set<String> defaultApps = new HashSet<>(Arrays.asList(
-            "com.amazon.avod.thirdpartyclient",
-            "com.android.chrome",
-            "com.breel.wallpapers20",
-            "com.disney.disneyplus",
-            "com.google.android.aicore",
-            "com.google.android.apps.accessibility.magnifier",
-            "com.google.android.apps.aiwallpapers",
-            "com.google.android.apps.bard",
-            "com.google.android.apps.customization.pixel",
-            "com.google.android.apps.emojiwallpaper",
-            "com.google.android.apps.nexuslauncher",
-            "com.google.android.apps.pixel.agent",
-            "com.google.android.apps.pixel.creativeassistant",
-            "com.google.android.apps.pixel.support",
-            "com.google.android.apps.privacy.wildlife",
-            "com.google.android.apps.subscriptions.red",
-            "com.google.android.apps.wallpaper",
-            "com.google.android.apps.wallpaper.pixel",
-            "com.google.android.apps.weather",
-            "com.google.android.gms",
-            "com.google.android.googlequicksearchbox",
-            "com.google.android.soundpicker",
-            "com.google.android.wallpaper.effects",
-            "com.google.pixel.livewallpaper",
-            "com.microsoft.android.smsorganizer",
-            "com.nhs.online.nhsonline",
-            "com.nothing.smartcenter",
-            "com.realme.link",
-            "in.startv.hotstar",
-            "jp.id_credit_sp2.android",
-            "com.google.android.apps.photos",
-
-            //check apps
-            "com.byxiaorun.detector",
-            "io.github.vvb2060.mahoshojo",
-            "krypton.tbsafetychecker",
-            "com.zhenxi.hunter",
-            "vn.com.techcombank.bb.app",
-            "com.vnid",
-            "com.example.adbcheck",
-            "xyz.xfqlittlefan.notdeveloper",
-    
-            //game
-            "com.bid.master.war.auction.battle",
-            "com.justplay.app",
-            "com.play.lucky.real.earn.money.free.fun.games.play.reward.income",
-            "com.mistplay.mistplay",
-            "com.habit.record.reward.tracker",
-            "com.tapchamps.tap",
-            "com.ss.android.ugc.trill"
+    private static final Set<String> whiteListHideDeveloperStatus = new HashSet<>(Arrays.asList(
+        "android",
+        "com.android.settings",
+        "com.android.systemui",
+        "com.android.shell"
     ));
 
     private static final Set<String> settingUsbStateToHide = new HashSet<>(Arrays.asList(
@@ -113,7 +67,7 @@ public class HideDeveloperStatusUtils {
 
         Set<String> apps = getApps(cr);
 
-        boolean result = apps.contains(packageName) || defaultApps.contains(packageName);
+        boolean result = !whiteListHideDeveloperStatus.contains(packageName);
 
         Log.i(TAG, "shouldHidePackageName: result = " + (result ? "true" : "false"));
 
