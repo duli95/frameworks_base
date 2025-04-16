@@ -17,7 +17,7 @@ public final class ChangeDeviceInfo {
 
     private static final String TAG = "ChangeDeviceInfo";
 
-    private static final Map<String, Object> propsToChange;
+    private static Map<String, Object> propsToChange;
 
     // Packages to Spoof as the most recent Pixel device
     private static final String[] packagesToChange = {
