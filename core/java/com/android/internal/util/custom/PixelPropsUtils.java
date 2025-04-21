@@ -26,6 +26,7 @@ import android.app.TaskStackListener;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.res.Resources;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Process;
@@ -41,6 +42,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import com.android.internal.R;
 
 public class PixelPropsUtils {
 
@@ -103,22 +105,6 @@ public class PixelPropsUtils {
             "com.google.android.MTCL83",
             "com.google.android.UltraCVM",
             "com.google.android.apps.cameralite"
-    };
-
-    // Codenames for currently supported Pixels by Google
-    private static final String[] pixelCodenames = {
-            "felix",
-            "tangorpro",
-            "lynx",
-            "cheetah",
-            "panther",
-            "bluejay",
-            "oriole",
-            "raven",
-            "barbet",
-            "redfin",
-            "bramble",
-            "sunfish"
     };
 
     private static volatile boolean sIsGms, sIsFinsky, sIsPhotos;
@@ -299,13 +285,9 @@ public class PixelPropsUtils {
                 || packageName.startsWith("com.samsung.")
                 || Arrays.asList(extraPackagesToChange).contains(packageName)) {
 
-            boolean isPixelDevice = Arrays.asList(pixelCodenames).contains(SystemProperties.get(DEVICE));
-
             if (packageName.equals("com.google.android.apps.photos")) {
                 propsToChange.putAll(propsToChangePixelXL);
-            } else if (isPixelDevice) {
-                return;
-            } else {
+            }else {
                 if (Arrays.asList(packagesToChangePixel7Pro).contains(packageName)) {
                     propsToChange.putAll(propsToChangePixel7Pro);
                 } else {
