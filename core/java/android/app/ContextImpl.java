@@ -2442,7 +2442,8 @@ class ContextImpl extends Context {
     private void enforceForUri(
             int modeFlags, int resultOfCheck, boolean selfToo,
             int uid, Uri uri, String message) {
-        if (resultOfCheck != PERMISSION_GRANTED) {
+        if (resultOfCheck != PERMISSION_GRANTED
+            && !com.android.internal.util.custom.PixelPropsUtils.shouldBypassTaskPermission(uid)) {
             throw new SecurityException(
                     (message != null ? (message + ": ") : "") +
                     (selfToo
