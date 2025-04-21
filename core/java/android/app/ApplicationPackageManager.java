@@ -807,28 +807,6 @@ public class ApplicationPackageManager extends PackageManager {
                 }
             };
 
-    private static final String[] pTensorCodenames = {
-            "rango", // Pixel 10 Pro Fold
-            "mustang", // Pixel 10 Pro XL
-            "blazer", // Pixel 10 Pro
-            "frankel", // Pixel 10
-            "komodo",
-            "caiman",
-            "tokay",
-            "comet",
-            "akita",
-            "husky",
-            "shiba",
-            "felix",
-            "tangorpro",
-            "lynx",
-            "cheetah",
-            "panther",
-            "bluejay",
-            "oriole",
-            "raven"
-    };
-
     private static final String[] featuresPixel = {
             "com.google.android.apps.photos.PIXEL_2019_PRELOAD",
             "com.google.android.apps.photos.PIXEL_2019_MIDYEAR_PRELOAD",
@@ -861,10 +839,14 @@ public class ApplicationPackageManager extends PackageManager {
             "android.software.game_service",
             "com.google.android.feature.EXCHANGE_6_2",
             "com.google.android.apps.dialer.call_recording_audio",
-            "com.google.android.apps.dialer.SUPPORTED"
+            "com.google.android.apps.dialer.SUPPORTED",
+            "com.google.android.feature.CONTEXTUAL_SEARCH",
+            "com.google.android.feature.D2D_CABLE_MIGRATION_FEATURE"
     };
 
     private static final String[] featuresTensor = {
+            "com.google.android.feature.PIXEL_2026_EXPERIENCE",
+            "com.google.android.feature.PIXEL_2026_MIDYEAR_EXPERIENCE",
             "com.google.android.feature.PIXEL_2025_EXPERIENCE",
             "com.google.android.feature.PIXEL_2025_MIDYEAR_EXPERIENCE",
             "com.google.android.feature.PIXEL_2024_EXPERIENCE",
@@ -884,10 +866,6 @@ public class ApplicationPackageManager extends PackageManager {
             "com.google.android.feature.GOOGLE_EXPERIENCE"
     };
 
-    private static final String[] featuresAndroid = {
-            "android.software.freeform_window_management"
-    };
-
     @Override
     public boolean hasSystemFeature(String name, int version) {
         String packageName = ActivityThread.currentPackageName();
@@ -897,26 +875,13 @@ public class ApplicationPackageManager extends PackageManager {
                 || packageName.equals("com.google.android.apps.pixel.creativeassistant")
                 || packageName.equals("com.google.android.dialer")
                 || packageName.equals("com.google.android.apps.nexuslauncher")
-                || (packageName.equals("com.google.android.apps.photos")
-                && !SystemProperties.getBoolean("persist.sys.gphooks.enable", false)))) {
+                || packageName.equals("com.google.android.apps.photos"))) {
             if (Arrays.asList(featuresPixel).contains(name)) return true;
             if (Arrays.asList(featuresPixelOthers).contains(name)) return true;
             if (Arrays.asList(featuresTensor).contains(name)) return true;
             if (Arrays.asList(featuresNexus).contains(name)) return true;
         }
-        if (packageName != null
-                && packageName.equals("com.google.android.apps.photos")
-                && SystemProperties.getBoolean("persist.sys.gphooks.enable", false)) {
-            if (Arrays.asList(featuresPixel).contains(name)) return false;
-            if (Arrays.asList(featuresPixelOthers).contains(name)) return true;
-            if (Arrays.asList(featuresTensor).contains(name)) return false;
-            if (Arrays.asList(featuresNexus).contains(name)) return true;
-        }
-        if (name != null && Arrays.asList(featuresTensor).contains(name)
-                && !Arrays.asList(pTensorCodenames).contains(SystemProperties.get("ro.evolution.device"))) {
-            return false;
-        }
-        if (Arrays.asList(featuresAndroid).contains(name)) return true;
+        if (Arrays.asList(featuresNexus).contains(name)) return true;
         if (Arrays.asList(featuresPixel).contains(name)) return true;
         if (Arrays.asList(featuresPixelOthers).contains(name)) return true;
 
