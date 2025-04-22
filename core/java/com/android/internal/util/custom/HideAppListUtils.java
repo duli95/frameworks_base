@@ -1,4 +1,4 @@
-package com.android.internal.util.evolution;
+package com.android.internal.util.custom;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -16,13 +16,6 @@ public class HideAppListUtils {
         SET
     }
 
-    private static final String[] blackListPackageNameToHide = {
-        "lineageos",
-        "pixelexperience",
-        "evolution",
-        "crdroid"
-    };
-
     private static boolean isBootCompleted() {
         return SystemProperties.getBoolean("sys.boot_completed", false);
     }
@@ -34,12 +27,6 @@ public class HideAppListUtils {
     public static boolean shouldHideAppList(ContentResolver cr, String packageName) {
         if (cr == null || packageName == null || !isBootCompleted()) {
             return false;
-        }
-
-        for(String packageNameToHide : blackListPackageNameToHide) {
-            if (packageName.contains(packageNameToHide)) {
-                return true;
-            }
         }
 
         Set<String> apps = getApps(cr);
