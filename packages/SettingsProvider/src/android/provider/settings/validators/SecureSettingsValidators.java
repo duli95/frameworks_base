@@ -366,5 +366,6 @@ public class SecureSettingsValidators {
         VALIDATORS.put(Secure.FACE_UNLOCK_METHOD, BOOLEAN_VALIDATOR);
         // Pixel Experience additions
         VALIDATORS.put(Secure.HIDE_DEVELOPER_STATUS, ANY_STRING_VALIDATOR);
+        VALIDATORS.put(Secure.HIDE_APPLIST, ANY_STRING_VALIDATOR);
     }
 }

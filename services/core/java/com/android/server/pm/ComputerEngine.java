@@ -169,6 +169,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import com.android.internal.util.custom.HideAppListUtils;
+
 /**
  * This class contains the implementation of the Computer functions.  It
  * is entirely self-contained - it has no implicit access to
@@ -2664,6 +2666,67 @@ public class ComputerEngine implements Computer {
         }
     }
 
+    private static boolean isBootCompleted() {
+        return android.os.SystemProperties.getBoolean("sys.boot_completed", false);
+    }
+
+    /**
+     * Returns whether caller is home.
+     */
+    private final boolean isCallerHome(int callingUid, int userId) {
+        final String home = mDefaultAppProvider.getDefaultHome(userId);
+        if (home == null) return false;
+        return isCallerSameApp(home, callingUid);
+    }
+
+    /**
+     * Returns whether caller is system, root, shell, or updated system app.
+     */
+    private final boolean isCallerSystem(int callingUid) {
+        if (isSystemOrRootOrShell(callingUid)) {
+            return true;
+        }
+        final SettingBase callingPs = mSettings.getSettingBase(UserHandle.getAppId(callingUid));
+        if (callingPs == null) return false;
+        final int callingFlags = callingPs.getFlags();
+        if (((callingFlags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM)
+                || ((callingFlags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+                        == ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) {
+            return true;
+        }
+        return false;
+    }
+
+    private final boolean shouldFilterApplicationCustom(
+            @Nullable PackageStateInternal ps, int callingUid, int userId) {
+        if (!isBootCompleted()) return false;
+        if (ps == null) return false;
+
+        final String packageName = ps.getPackageName();
+        if (packageName == null) return false;
+
+        // if the target and caller are the same application, skip
+        if (isCallerSameApp(packageName, callingUid)
+                // if the caller is system, root, shell, or updated system app, skip
+                || isCallerSystem(callingUid)
+                // if the caller is the current default home, skip
+                || isCallerHome(callingUid, userId)) {
+            return false;
+        }
+        // if the target is hidden app, do filter
+        if (ps.getUserStateOrDefault(userId).isHidden()) {
+            return true;
+        }
+
+        // if the target is included in Settings.Secure.HIDE_APPLIST, do filter
+        if (HideAppListUtils.shouldHideAppList(
+                mContext, packageName)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public final boolean isSameProfileGroup(@UserIdInt int callerUserId,
             @UserIdInt int userId) {
         final long identity = Binder.clearCallingIdentity();
@@ -2708,6 +2771,9 @@ public class ComputerEngine implements Computer {
         }
         final String instantAppPkgName = getInstantAppPackageName(callingUid);
         final boolean callerIsInstantApp = instantAppPkgName != null;
+        if (shouldFilterApplicationCustom(ps, callingUid, userId)) {
+            return true;
+        }
         if (ps == null) {
             // pretend the application exists, but, needs to be filtered
             return callerIsInstantApp || Process.isSdkSandboxUid(callingUid);
