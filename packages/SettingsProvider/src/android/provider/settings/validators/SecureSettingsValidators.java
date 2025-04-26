@@ -367,6 +367,5 @@ public class SecureSettingsValidators {
         // Pixel Experience additions
         VALIDATORS.put(Secure.HIDE_DEVELOPER_STATUS, ANY_STRING_VALIDATOR);
         VALIDATORS.put(Secure.HIDE_APPLIST, ANY_STRING_VALIDATOR);
-        VALIDATORS.put(Secure.HIDE_VPN_STATUS, ANY_STRING_VALIDATOR);
     }
 }
