@@ -404,11 +404,6 @@ public class SubscriptionInfo implements Parcelable {
      * @see TelephonyManager#getSimCarrierId()
      */
     public int getCarrierId() {
-        try {
-            if(SpoofSim.getSpoofStatus() && SpoofSim.spoofCarrierId() >= 0) return SpoofSim.spoofCarrierId();
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
         return this.mCarrierId;
     }
 
@@ -615,11 +610,6 @@ public class SubscriptionInfo implements Parcelable {
      * @return the ISO country code
      */
     public String getCountryIso() {
-        try {
-           if(SpoofSim.getSpoofStatus() && !SpoofSim.spoofCountryIso().isEmpty()) return SpoofSim.spoofCountryIso();
-        } catch (Exception e) {
-           // TODO: handle exception
-        }
         return this.mCountryIso;
     }
 
