@@ -182,19 +182,19 @@ public class PixelPropsUtils {
                 if(!checkFingerprintData()){
                     Log.i(TAG, "No fingerprint data available, using default values");
                     setpropValueGms("MANUFACTURER", "Google");
-                    setpropValueGms("MODEL", "Pixel 6");
-                    setpropValueGms("FINGERPRINT", "google/oriole_beta/oriole:16/BP22.250221.010/13193326:user/release-keys");
+                    setpropValueGms("MODEL", "Pixel 7 Pro");
+                    setpropValueGms("FINGERPRINT", "google/cheetah_beta/cheetah:16/BP22.250325.007/13352765:user/release-keys");
                     setpropValueGms("BRAND", "google");
                     setpropValueGms("BOARD", "google");
-                    setpropValueGms("HARDWARE", "oriole");
-                    setpropValueGms("PRODUCT", "oriole_beta");
-                    setpropValueGms("DEVICE", "oriole");
-                    setpropValueGms("ID", "BP22.250221.010");
+                    setpropValueGms("HARDWARE", "cheetah");
+                    setpropValueGms("PRODUCT", "cheetah_beta");
+                    setpropValueGms("DEVICE", "cheetah");
+                    setpropValueGms("ID", "BP22.250325.007");
                     setpropValueGms("TYPE", "user");
                     setpropValueGms("TAGS", "release-keys");
                     setpropValueGms("VERSION.RELEASE", "16");
-                    setpropValueGms("VERSION.INCREMENTAL", "13193326");
-                    setpropValueGms("VERSION.SECURITY_PATCH", "2025-03-05");
+                    setpropValueGms("VERSION.INCREMENTAL", "13352765");
+                    setpropValueGms("VERSION.SECURITY_PATCH", "2025-04-05");
                     setpropValueGms("VERSION.DEVICE_INITIAL_SDK_INT", "21");
                 }else{
                     Log.i(TAG, "Fingerprint data available, using values from fingerprint data");
