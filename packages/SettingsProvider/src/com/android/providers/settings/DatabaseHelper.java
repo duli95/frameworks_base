@@ -2436,6 +2436,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
             loadBooleanSetting(stmt, Settings.Global.AUTO_TIME,
                     R.bool.def_auto_time); // Sync time to NITZ
 
+            loadBooleanSetting(stmt, Settings.Global.NON_PERSISTENT_MAC_RANDOMIZATION_FORCE_ENABLED,
+                    R.integer.non_persistent_mac_randomization_force_enabled);
+
             loadBooleanSetting(stmt, Settings.Global.AUTO_TIME_ZONE,
                     R.bool.def_auto_time_zone); // Sync timezone to NITZ
 

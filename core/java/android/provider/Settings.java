@@ -6231,6 +6231,7 @@ public final class Settings {
             MOVED_TO_GLOBAL.add(Settings.Global.DATA_ACTIVITY_TIMEOUT_WIFI);
             MOVED_TO_GLOBAL.add(Settings.Global.DATA_ROAMING);
             MOVED_TO_GLOBAL.add(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED);
+            MOVED_TO_GLOBAL.add(Settings.Global.NON_PERSISTENT_MAC_RANDOMIZATION_FORCE_ENABLED);
             MOVED_TO_GLOBAL.add(Settings.Global.DEVICE_PROVISIONED);
             MOVED_TO_GLOBAL.add(Settings.Global.DISPLAY_SIZE_FORCED);
             MOVED_TO_GLOBAL.add(Settings.Global.DOWNLOAD_MAX_BYTES_OVER_MOBILE);
@@ -6841,6 +6842,14 @@ public final class Settings {
         @Deprecated
         public static final String DEVELOPMENT_SETTINGS_ENABLED =
                 Global.DEVELOPMENT_SETTINGS_ENABLED;
+
+/**
+         * @deprecated Use {@link android.provider.Settings.Global#NON_PERSISTENT_MAC_RANDOMIZATION_FORCE_ENABLED}
+         * instead
+         */
+        @Deprecated
+        public static final String NON_PERSISTENT_MAC_RANDOMIZATION_FORCE_ENABLED =
+                Global.NON_PERSISTENT_MAC_RANDOMIZATION_FORCE_ENABLED;
 
         /**
          * When the user has enable the option to have a "bug report" command
@@ -12104,6 +12113,12 @@ public final class Settings {
         */
         @Readable
         public static final String DEVELOPMENT_SETTINGS_ENABLED = "development_settings_enabled";
+
+        /**
+        * Whether user has enabled mac randomization.
+        */
+        @Readable
+        public static final String NON_PERSISTENT_MAC_RANDOMIZATION_FORCE_ENABLED = "non_persistent_mac_randomization_force_enabled";
 
         /**
         * Whether the device has been provisioned (0 = false, 1 = true).

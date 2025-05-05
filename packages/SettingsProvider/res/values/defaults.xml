@@ -137,6 +137,7 @@
 
     <!-- Development settings -->
     <bool name="def_stay_on_while_plugged_in">true</bool>
+    <integer name="non_persistent_mac_randomization_force_enabled">1</integer>
 
     <!-- Number of retries for connecting to DHCP.
          Value here is the same as WifiStateMachine.DEFAULT_MAX_DHCP_RETRIES -->
