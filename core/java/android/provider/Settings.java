@@ -12118,6 +12118,7 @@ public final class Settings {
         * Whether user has enabled mac randomization.
         */
         @Readable
+        @SuppressLint("NoSettingsProvider")
         public static final String NON_PERSISTENT_MAC_RANDOMIZATION_FORCE_ENABLED = "non_persistent_mac_randomization_force_enabled";
 
         /**
